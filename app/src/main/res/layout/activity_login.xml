@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/principal_app"
+    tools:context=".FirstActivity.LoginActivity">
+
+    <!--MCV para el fondo blanco del login-->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="100dp"
+        app:cardBackgroundColor="@color/subprincipal_app"
+        app:cardCornerRadius="16dp">
+
+        <!--Linear para acomodar los elementos de forma vertical-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+            <!--TV para el H1 de iniciar sesion-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:textColor="@color/title"
+                android:textSize="32sp" />
+
+            <!--TV para el H2 de usuario-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/user"
+                android:textColor="@color/title" />
+
+            <!--TextInputLayout que sustituye al EditText para el registro del usuario-->
+            <!--OutlinedBox hace que la caja se cubra toda por un margen.-->
+            <!--hinttextcolor define el color del hint cuando está flotando.-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/user"
+                android:textColorHint="@color/color_items"
+                app:boxStrokeColor="@color/color_items"
+                app:hintTextColor="@color/color_items">
+
+                <!--EditText para el registro del usuario (este siempre va dentro del TextInputLayout, al que se le da estilos es a el TIL-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tieUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/color_items" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--TV para el texto de "contraseña"-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="30dp"
+                android:text="@string/password"
+                android:textColor="@color/title" />
+
+            <!--TIL para envolver el campo de texto de la contraseña-->
+            <!--EndIconMode define el componente que estará al final del TIL (en este caso un "ojo" para ver la contraseña) y endIconTint define el color de este.-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:textColorHint="@color/color_items"
+                app:boxStrokeColor="@color/color_items"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/color_items"
+                app:hintTextColor="@color/color_items">
+
+                <!--EditText dentro del TIL para escribir la contraseña. -->
+                <!--El inputttpe password es para que al escribir no se vea el texto-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tiePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textColor="@color/color_items" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--MaterialButton para iniciar sesion.-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mbLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/button_color"
+                android:text="@string/login"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

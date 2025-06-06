@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <!--Activty_login-->
+    <color name="principal_app">#006D5B</color> <!--Color verde principal de la app-->
+    <color name="subprincipal_app">#e4e4e4</color> <!--Color secundario de la app (blanco)-->
+    <color name="color_items">#555555</color> <!--Color de los items de campo de texto de la app-->
+    <color name="button_color">#1E3A5F</color> <!--Color de los botones de la app-->
+    <color name="title">#0a0a0a</color> <!--Color de los titulos (textos no campos) de la app-->
+
+    <!--activity_stats-->
+    <color name="third_layer">#e1e1e1</color>
+    <color name="border_third_layer">#bbbbbb</color>
+
+    <!--category_colors-->
+    <color name="category_admission_color">#FF6F61</color> <!-- rojo coral -->
+    <color name="category_dates_color">#F6C90E</color>    <!-- amarillo dorado -->
+    <color name="category_academics_color">#88aa88</color> <!-- azul violeta -->
+    <color name="category_inscription_color">#00B8A9</color> <!-- turquesa -->
+    <color name="category_results_color">#3FA7D6</color>   <!-- azul claro -->
+    <color name="category_costs_color">#F76C6C</color>     <!-- rojo salmón -->
+    <color name="category_modalities_color">#8D8741</color> <!-- marrón oliva -->
+    <color name="category_contact_color">#ad587a</color>    <!-- verde -->
+    <color name="category_student_life_color">#FF9F1C</color> <!-- naranja -->
+    <color name="category_scholarships_color">#9D4EDD</color> <!-- púrpura -->
+    <color name="category_other_color">#A9A9A9</color>       <!-- gris -->
+</resources>

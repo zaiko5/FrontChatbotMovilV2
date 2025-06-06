@@ -1,0 +1,71 @@
+<resources>
+
+    <string name="app_name">Estadisticas del chatbot</string>
+
+
+    <string-array name="months">
+        <item>Mes</item>
+        <item>Enero</item>
+        <item>Febrero</item>
+        <item>Marzo</item>
+        <item>Abril</item>
+        <item>Mayo</item>
+        <item>Junio</item>
+        <item>Julio</item>
+        <item>Agosto</item>
+        <item>Septiembre</item>
+        <item>Octubre</item>
+        <item>Noviembre</item>
+        <item>Diciembre</item>
+    </string-array>
+
+    <string-array name="weeks">
+        <item>Semana</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="years">
+        <item>Año</item>
+        <item>2025</item>
+    </string-array>
+
+
+    <!--Login-->
+    <string name="login">Iniciar sesión</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+
+    <!--activity-stats-->
+    <string name="stadistics">Estadísticas</string>
+    <string name="chatbot_consults">Consultas del chatbot</string>
+    <string name="filter">Filtrar por</string>
+    <string name="consults">Total de consultas</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="change_prompt">El prompt actual define la forma en la que el chatbot responde, ¿Estás seguro de comenzar a cambiar el prompt del chatbot?</string>"
+
+
+    <!--activity-prompt-->
+    <string name="current_prompt">Prompt actual</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel_prompt">¿Seguro que desea descartar el cambio de prompt? Los cambios se perderán.</string>
+    <string name="confirm_prompt">¿Seguro que desea realizar el cambio de prompt?</string>
+
+
+    <!--Categoriass-->
+    <string name="category_admission">Requisitos de admisión</string>
+    <string name="category_dates">Fechas importantes</string>
+    <string name="category_academics">Oferta académica</string>
+    <string name="category_inscription">Proceso de inscripcion</string>
+    <string name="category_results">Resultados y seguimiento</string>
+    <string name="category_costs">Costos</string>
+    <string name="category_modalities">Modalidades</string>
+    <string name="category_contact">Información de contacto o ubicación</string>"
+    <string name="category_student_life">Vida estudiantil</string>
+    <string name="category_scholarships">Becas y apoyos</string>
+    <string name="category_other">Otros</string>
+
+</resources>
