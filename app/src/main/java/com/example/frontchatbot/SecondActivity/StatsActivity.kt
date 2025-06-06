@@ -27,7 +27,6 @@ import com.example.frontchatbot.SecondActivity.RecyclerView.CategoryAdapter
 import com.example.frontchatbot.SecondActivity.RecyclerView.CategoryItem
 import com.example.frontchatbot.SecondActivity.RecyclerView.CategoryLeftAdapter
 import com.example.frontchatbot.SecondActivity.api.RetrofitClient
-import com.example.frontchatbot.ThirdActivity.ChangePromptActivity
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -70,7 +69,6 @@ class StatsActivity : AppCompatActivity() {
     private lateinit var pieChart: PieChart
 
     private lateinit var mbLogout: MaterialButton
-    private lateinit var FABPrompt: FloatingActionButton
 
     // Declarar el token como una propiedad de la clase
     private var authToken: String = ""
@@ -147,15 +145,11 @@ class StatsActivity : AppCompatActivity() {
         pieChart = findViewById(R.id.pcData)
 
         mbLogout = findViewById(R.id.mbLogout)
-        FABPrompt = findViewById(R.id.FABPrompt)
     }
 
     private fun setListeners() {
         mbLogout.setOnClickListener {
             logout()
-        }
-        FABPrompt.setOnClickListener {
-            showChangePromptDialog()
         }
     }
 
@@ -416,25 +410,5 @@ class StatsActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish() // Finaliza la actividad actual para que no se pueda volver atrás
-    }
-
-    private fun showChangePromptDialog() {
-        val dialog = Dialog(this) //Instanciamos el dialog
-        dialog.setContentView(R.layout.dialog_add_prompt) //Le pasamos el layout del dialog y lo setea como vista del dialog.
-
-        val mbNo: MaterialButton = dialog.findViewById(R.id.mbNo) //Instanciamos el boton del dialog para agregar tareas.
-        val mbYes: MaterialButton = dialog.findViewById(R.id.mbYes) //Instanciamos el boton del dialog para eliminar tareas.
-        val tvMessage: TextView = dialog.findViewById(R.id.tvMessage)
-        tvMessage.text = getString(R.string.change_prompt)
-
-        mbNo.setOnClickListener() {
-            dialog.dismiss()
-        }
-        mbYes.setOnClickListener() {
-            val intent = Intent(this, ChangePromptActivity::class.java)
-            startActivity(intent)
-            dialog.dismiss()
-        }
-        dialog.show()
     }
 }

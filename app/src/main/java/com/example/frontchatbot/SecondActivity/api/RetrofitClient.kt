@@ -1,7 +1,5 @@
 package com.example.frontchatbot.SecondActivity.api
 
-import com.example.frontchatbot.ThirdActivity.api.PromptService
-import com.example.frontchatbot.ThirdActivity.model.PromptResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
