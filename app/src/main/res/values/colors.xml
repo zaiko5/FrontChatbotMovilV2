@@ -21,15 +21,27 @@
     <color name="border_third_layer">#bbbbbb</color>
 
     <!--category_colors-->
-    <color name="category_admission_color">#FF6F61</color> <!-- rojo coral -->
-    <color name="category_dates_color">#F6C90E</color>    <!-- amarillo dorado -->
-    <color name="category_academics_color">#88aa88</color> <!-- azul violeta -->
-    <color name="category_inscription_color">#00B8A9</color> <!-- turquesa -->
-    <color name="category_results_color">#3FA7D6</color>   <!-- azul claro -->
-    <color name="category_costs_color">#F76C6C</color>     <!-- rojo salmón -->
-    <color name="category_modalities_color">#8D8741</color> <!-- marrón oliva -->
-    <color name="category_contact_color">#ad587a</color>    <!-- verde -->
-    <color name="category_student_life_color">#FF9F1C</color> <!-- naranja -->
-    <color name="category_scholarships_color">#9D4EDD</color> <!-- púrpura -->
-    <color name="category_other_color">#A9A9A9</color>       <!-- gris -->
+    <color name="category_context_color">#9D4EDD</color>       <!-- púrpura -->
+    <color name="category_campus_color">#FF9F1C</color>        <!-- naranja -->
+    <color name="category_admission_color">#FF6F61</color>     <!-- rojo coral -->
+    <color name="category_inscription_color">#00B8A9</color>   <!-- turquesa -->
+    <color name="category_other_color">#A9A9A9</color>         <!-- gris neutro -->
+    <color name="category_woanswer_color">#8D8741</color>      <!-- marrón oliva -->
+
+    <!--subcategories_colors-->       <!-- marrón oliva -->
+    <color name="subcategory_buildings_color">#3FA7D6</color>        <!-- azul claro -->
+    <color name="subcategory_services_color">#FF9F1C</color>         <!-- naranja -->
+    <color name="subcategory_careers_color">#F6C90E</color>          <!-- amarillo dorado -->
+    <color name="subcategory_general_info_color">#88AA88</color>     <!-- verde suave -->
+    <color name="subcategory_costs_color">#FF0000</color>            <!-- rojo salmón -->
+    <color name="subcategory_important_dates_color">#CE5E52</color>  <!-- rojo coral -->
+    <color name="subcategory_contact_followup_color">#A9A9A9</color> <!-- gris neutro -->
+    <color name="subcategory_documents_delivery_color">#00B8A9</color> <!-- turquesa -->
+    <color name="subcategory_reenrollment_color">#9D4EDD</color>      <!-- púrpura -->
+    <color name="subcategory_study_guide_color">#158DC8</color>      <!-- azul claro -->
+    <color name="subcategory_graduation_color">#5D3C0A</color>       <!-- naranja -->
+    <color name="subcategory_scholarships_color">#97790B</color>      <!-- amarillo dorado -->
+    <color name="subcategory_school_control_color">#195919</color>   <!-- verde suave -->
+    <color name="subcategory_academic_load_color">#710606</color>    <!-- rojo salmón -->
+    <color name="subcategory_english_color">#00B8A9</color>          <!-- turquesa -->
 </resources>

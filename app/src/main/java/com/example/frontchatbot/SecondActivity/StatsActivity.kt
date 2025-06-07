@@ -1,6 +1,5 @@
 package com.example.frontchatbot.SecondActivity
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -9,12 +8,7 @@ import android.util.Base64
 import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -32,7 +26,6 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -41,20 +34,38 @@ import retrofit2.HttpException
 class StatsActivity : AppCompatActivity() {
 
     private val categories = listOf(
+        CategoryItem.Campus,
         CategoryItem.Admission,
-        CategoryItem.Academics,
-        CategoryItem.Inscription,
-        CategoryItem.Results,
-        CategoryItem.Costs,
+        CategoryItem.Other
     )
 
     private val categories2 = listOf(
-        CategoryItem.Contact,
-        CategoryItem.StudentLife,
-        CategoryItem.Dates,
-        CategoryItem.Modalities,
+        CategoryItem.Inscription,
+        CategoryItem.Context,
+        CategoryItem.WOAnswer
+    )
+
+    private val subCategories1 = listOf(
+        CategoryItem.Buildings,
+        CategoryItem.Services,
+        CategoryItem.Careers,
+        CategoryItem.GeneralInfo,
+        CategoryItem.Costs,
+        CategoryItem.ContactFollowup,
+        CategoryItem.DocumentsDelivery,
+        CategoryItem.WOAnswer
+    )
+
+    private val subCategories2 = listOf(
+        CategoryItem.Reenrollment,
+        CategoryItem.StudyGuide,
+        CategoryItem.Graduation,
         CategoryItem.Scholarships,
-        CategoryItem.Other
+        CategoryItem.SchoolControl,
+        CategoryItem.AcademicLoad,
+        CategoryItem.English,
+        CategoryItem.ImportantDates,
+        CategoryItem.Context
     )
 
     private lateinit var adapter: CategoryAdapter
@@ -62,11 +73,17 @@ class StatsActivity : AppCompatActivity() {
     private lateinit var adapter2: CategoryLeftAdapter
     private lateinit var rvLeftCategory: RecyclerView
 
+    private lateinit var adapterSub: CategoryAdapter
+    private lateinit var rvSubthemeR: RecyclerView
+    private lateinit var adapterSub2: CategoryLeftAdapter
+    private lateinit var rvSubthemeL: RecyclerView
+
     private lateinit var spinnerYear: Spinner
     private lateinit var spinnerMonth: Spinner
     private lateinit var spinnerWeek: Spinner
 
     private lateinit var pieChart: PieChart
+    private lateinit var pieSubthemes: PieChart
 
     private lateinit var mbLogout: MaterialButton
 
@@ -78,18 +95,30 @@ class StatsActivity : AppCompatActivity() {
     private val ACCESS_TOKEN_KEY = "access_token"
 
     private val categoryColorsMap = mapOf(
-        "requisitos de admisión" to R.color.category_admission_color,
-        "fechas importantes" to R.color.category_dates_color,
-        "oferta académica" to R.color.category_academics_color,
-        "proceso de inscripción" to R.color.category_inscription_color,
-        "resultados y seguimiento" to R.color.category_results_color,
-        "costos" to R.color.category_costs_color,
-        "modalidades" to R.color.category_modalities_color,
-        "información de contacto o ubicación" to R.color.category_contact_color,
-        "vida estudiantil" to R.color.category_student_life_color,
-        "becas y apoyos" to R.color.category_scholarships_color,
-        "otros" to R.color.category_other_color
+        "Fuera de contexto" to R.color.category_context_color,
+        "Información del campus" to R.color.category_campus_color,
+        "Proceso de admisión" to R.color.category_admission_color,
+        "Proceso de inscripcion" to R.color.category_inscription_color,
+        "Otros procesos" to R.color.category_other_color,
+        "Sin respuesta" to R.color.category_woanswer_color,
+        "Edificios" to R.color.subcategory_buildings_color,
+        "Servicios (Servicios escolares, cafeterías, TOEFL, Asesorías)" to R.color.subcategory_services_color,
+        "Carreras" to R.color.subcategory_careers_color,
+        "Información general (Ficha de registro, pre-registro, configuración de correo electrónico, ejercicio práctico, atención personalizada, documentos a cargar, consulta de resultados, guía de estudios)" to R.color.subcategory_general_info_color,
+        "Costos (Ficha de admisión, inscripción, curso de nivelación)" to R.color.subcategory_costs_color,
+        "Fechas importantes (Inicio de clases)" to R.color.subcategory_important_dates_color,
+        "Seguimiento y contacto (Correos y contactos por área)" to R.color.subcategory_contact_followup_color,
+        "Entrega de documentos" to R.color.subcategory_documents_delivery_color,
+        "Reinscripción en línea" to R.color.subcategory_reenrollment_color,
+        "Guía de estudio" to R.color.subcategory_study_guide_color,
+        "Titulación (Contacto)" to R.color.subcategory_graduation_color,
+        "Becas (Contacto)" to R.color.subcategory_scholarships_color,
+        "Control escolar (Contacto)" to R.color.subcategory_school_control_color,
+        "Carga académica (Contacto)" to R.color.subcategory_academic_load_color,
+        "Inglés (Contacto)" to R.color.subcategory_english_color
     )
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,6 +167,12 @@ class StatsActivity : AppCompatActivity() {
         adapter2 = CategoryLeftAdapter(categories2)
         rvLeftCategory = findViewById(R.id.rvLeftCategory)
 
+        adapterSub = CategoryAdapter(subCategories1)
+        rvSubthemeR = findViewById(R.id.rvSubthemeRight)
+
+        adapterSub2 = CategoryLeftAdapter(subCategories2)
+        rvSubthemeL = findViewById(R.id.rvSubthemeLeft)
+
         spinnerYear = findViewById(R.id.spinnerYear)
         spinnerMonth = findViewById(R.id.spinnerMonth)
         spinnerWeek = findViewById(R.id.spinnerWeek)
@@ -154,21 +189,26 @@ class StatsActivity : AppCompatActivity() {
     }
 
     private fun initIU() {
-        initRecyclerView()
-        initLeftRecyclerView()
+        initRecyclerViews()
         initSpinners()
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerViews() {
         adapter = CategoryAdapter(categories)
         rvRightCategory.layoutManager = LinearLayoutManager(this)
         rvRightCategory.adapter = adapter
-    }
 
-    private fun initLeftRecyclerView() {
         adapter2 = CategoryLeftAdapter(categories2)
         rvLeftCategory.layoutManager = LinearLayoutManager(this)
         rvLeftCategory.adapter = adapter2
+
+        adapterSub = CategoryAdapter(subCategories1)
+        rvSubthemeR.layoutManager = LinearLayoutManager(this)
+        rvSubthemeR.adapter = adapterSub
+
+        adapterSub2 = CategoryLeftAdapter(subCategories2)
+        rvSubthemeL.layoutManager = LinearLayoutManager(this)
+        rvSubthemeL.adapter = adapterSub2
     }
 
     private fun initSpinners() {

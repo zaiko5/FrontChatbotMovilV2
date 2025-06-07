@@ -57,16 +57,27 @@
 
 
     <!--Categoriass-->
-    <string name="category_admission">Requisitos de admisión</string>
-    <string name="category_dates">Fechas importantes</string>
-    <string name="category_academics">Oferta académica</string>
+    <string name="category_context">Fuera de contexto</string>
+    <string name="category_campus">Información del campus</string>
+    <string name="category_admission">Proceso de admisión</string>
     <string name="category_inscription">Proceso de inscripcion</string>
-    <string name="category_results">Resultados y seguimiento</string>
-    <string name="category_costs">Costos</string>
-    <string name="category_modalities">Modalidades</string>
-    <string name="category_contact">Información de contacto o ubicación</string>"
-    <string name="category_student_life">Vida estudiantil</string>
-    <string name="category_scholarships">Becas y apoyos</string>
-    <string name="category_other">Otros</string>
+    <string name="category_other">Otros procesos</string>
+    <string name="category_answers">Sin respuesta</string>
 
+    <!--Subtemas-->
+    <string name="subcategory_buildings">Edificios</string>
+    <string name="subcategory_services">Servicios (Servicios escolares, cafeterías, TOEFL, Asesorías)</string>
+    <string name="subcategory_careers">Carreras</string>
+    <string name="subcategory_general_info">Información general</string>
+    <string name="subcategory_costs">Costos</string>
+    <string name="subcategory_important_dates">Fechas importantes (Inicio de clases)</string>
+    <string name="subcategory_contact_followup">Seguimiento y contacto (Correos y contactos por área)</string>
+    <string name="subcategory_documents_delivery">Entrega de documentos</string>
+    <string name="subcategory_reenrollment">Reinscripción en línea</string>
+    <string name="subcategory_study_guide">Guía de estudio</string>
+    <string name="subcategory_graduation">Titulación (Contacto)</string>
+    <string name="subcategory_scholarships">Becas (Contacto)</string>
+    <string name="subcategory_school_control">Control escolar (Contacto)</string>
+    <string name="subcategory_academic_load">Carga académica (Contacto)</string>
+    <string name="subcategory_english">Ingles (Contacto)</string>
 </resources>
