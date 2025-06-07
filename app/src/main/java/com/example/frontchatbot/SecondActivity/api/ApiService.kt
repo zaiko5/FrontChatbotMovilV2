@@ -4,8 +4,15 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("consultas/por-categoria")
-    suspend fun getEstadisticasPorCategoria(
+    @GET("consultas/por-temav2")
+    suspend fun getEstadisticasPorTema(
+        @Query("year") year: Int?,
+        @Query("month") month: Int?,
+        @Query("week") week: Int?
+    ): Map<String, Double>
+
+    @GET("consultas/por-subtemav2")
+    suspend fun getEstadisticasPorSubTema(
         @Query("year") year: Int?,
         @Query("month") month: Int?,
         @Query("week") week: Int?

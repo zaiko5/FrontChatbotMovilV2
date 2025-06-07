@@ -178,6 +178,7 @@ class StatsActivity : AppCompatActivity() {
         spinnerWeek = findViewById(R.id.spinnerWeek)
 
         pieChart = findViewById(R.id.pcData)
+        pieSubthemes = findViewById(R.id.pcSubTheme)
 
         mbLogout = findViewById(R.id.mbLogout)
     }
@@ -324,11 +325,13 @@ class StatsActivity : AppCompatActivity() {
                 }
 
                 val api = RetrofitClient.create(authToken)
-                val stats = api.getEstadisticasPorCategoria(year, month, week)
+                val statsTheme = api.getEstadisticasPorTema(year, month, week)
+                val statsSubTheme = api.getEstadisticasPorSubTema(year, month, week)
                 val total = api.getTotalConsultas(year, month, week)
                 val cantidadUsuarios = api.getCantidadUsuarios(year, month, week)
 
-                actualizarPieChart(stats, total, cantidadUsuarios)
+                actualizarPieChart(statsTheme, total, cantidadUsuarios)
+                actualizarPieChartSubtemas(statsSubTheme, total, cantidadUsuarios)
 
             } catch (e: HttpException) {
                 // Captura errores HTTP (por ejemplo, 401 Unauthorized)
@@ -391,6 +394,44 @@ class StatsActivity : AppCompatActivity() {
             pieChart.setNoDataText("No hay datos disponibles para la selección actual.")
             pieChart.setNoDataTextColor(Color.GRAY)
             pieChart.invalidate()
+        }
+    }
+
+    private fun actualizarPieChartSubtemas(
+        datosSubtema: Map<String, Double>,
+        total: Long,
+        cantidadUsuarios: Long
+    ) {
+        val entries = mutableListOf<PieEntry>()
+        val colors = mutableListOf<Int>()
+
+        datosSubtema.forEach { (subthemeName, value) ->
+            entries.add(PieEntry(value.toFloat(), subthemeName.trim()))
+
+            val colorResId = categoryColorsMap[subthemeName.trim()] ?: R.color.category_other_color
+            colors.add(ContextCompat.getColor(this, colorResId))
+        }
+
+        val dataSet = PieDataSet(entries, "Subtemas")
+        dataSet.colors = colors
+        dataSet.valueTextSize = 14f
+        dataSet.valueTextColor = Color.BLACK
+
+        val data = PieData(dataSet)
+        pieSubthemes.data = data
+        pieSubthemes.centerText = "Consultas: $total\nUsuarios: $cantidadUsuarios"
+        pieSubthemes.setEntryLabelColor(Color.BLACK)
+        pieSubthemes.setDrawEntryLabels(false)
+        pieSubthemes.description.isEnabled = false
+        pieSubthemes.legend.isEnabled = false
+        pieSubthemes.legend.textColor = Color.BLACK
+        pieSubthemes.animateY(1000)
+        pieSubthemes.invalidate()
+
+        if (entries.isEmpty()) {
+            pieSubthemes.setNoDataText("No hay datos disponibles para la selección actual.")
+            pieSubthemes.setNoDataTextColor(Color.GRAY)
+            pieSubthemes.invalidate()
         }
     }
 
