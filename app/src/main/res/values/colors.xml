@@ -37,11 +37,11 @@
     <color name="subcategory_important_dates_color">#CE5E52</color>  <!-- rojo coral -->
     <color name="subcategory_contact_followup_color">#A9A9A9</color> <!-- gris neutro -->
     <color name="subcategory_documents_delivery_color">#00B8A9</color> <!-- turquesa -->
-    <color name="subcategory_reenrollment_color">#9D4EDD</color>      <!-- púrpura -->
+    <color name="subcategory_reenrollment_color">#7325B1</color>      <!-- púrpura -->
     <color name="subcategory_study_guide_color">#158DC8</color>      <!-- azul claro -->
-    <color name="subcategory_graduation_color">#5D3C0A</color>       <!-- naranja -->
+    <color name="subcategory_graduation_color">#3A8A80</color>       <!-- naranja -->
     <color name="subcategory_scholarships_color">#97790B</color>      <!-- amarillo dorado -->
-    <color name="subcategory_school_control_color">#195919</color>   <!-- verde suave -->
-    <color name="subcategory_academic_load_color">#710606</color>    <!-- rojo salmón -->
-    <color name="subcategory_english_color">#00B8A9</color>          <!-- turquesa -->
+    <color name="subcategory_school_control_color">#1BE41B</color>   <!-- verde suave -->
+    <color name="subcategory_academic_load_color">#9BA919</color>    <!-- rojo salmón -->
+    <color name="subcategory_english_color">#7F67AF</color>          <!-- turquesa -->
 </resources>

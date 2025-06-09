@@ -98,24 +98,24 @@ class StatsActivity : AppCompatActivity() {
         "Fuera de contexto" to R.color.category_context_color,
         "Información del campus" to R.color.category_campus_color,
         "Proceso de admisión" to R.color.category_admission_color,
-        "Proceso de inscripcion" to R.color.category_inscription_color,
+        "Proceso de inscripción" to R.color.category_inscription_color,
         "Otros procesos" to R.color.category_other_color,
         "Sin respuesta" to R.color.category_woanswer_color,
         "Edificios" to R.color.subcategory_buildings_color,
-        "Servicios (Servicios escolares, cafeterías, TOEFL, Asesorías)" to R.color.subcategory_services_color,
+        "Servicios (Servicios escolares, cafeterias, TOEFL, Asesorias)" to R.color.subcategory_services_color,
         "Carreras" to R.color.subcategory_careers_color,
-        "Información general (Ficha de registro, pre-registro, configuración de correo electrónico, ejercicio práctico, atención personalizada, documentos a cargar, consulta de resultados, guía de estudios)" to R.color.subcategory_general_info_color,
-        "Costos (Ficha de admisión, inscripción, curso de nivelación)" to R.color.subcategory_costs_color,
+        "Informacion general (Ficha de registro, pre-registro, configuracion de correo electronico, ejercicio practico, atencion personalizada, documentos a cargar, consulta de resultados, guia de estudios)" to R.color.subcategory_general_info_color,
+        "Costos (Ficha de admision, inscripcion, curso de nivelacion)" to R.color.subcategory_costs_color,
         "Fechas importantes (Inicio de clases)" to R.color.subcategory_important_dates_color,
         "Seguimiento y contacto (Correos y contactos por área)" to R.color.subcategory_contact_followup_color,
         "Entrega de documentos" to R.color.subcategory_documents_delivery_color,
         "Reinscripción en línea" to R.color.subcategory_reenrollment_color,
-        "Guía de estudio" to R.color.subcategory_study_guide_color,
-        "Titulación (Contacto)" to R.color.subcategory_graduation_color,
+        "Guia de estudio" to R.color.subcategory_study_guide_color,
+        "Titulacion (Contacto)" to R.color.subcategory_graduation_color,
         "Becas (Contacto)" to R.color.subcategory_scholarships_color,
         "Control escolar (Contacto)" to R.color.subcategory_school_control_color,
-        "Carga académica (Contacto)" to R.color.subcategory_academic_load_color,
-        "Inglés (Contacto)" to R.color.subcategory_english_color
+        "Carga academica (Contacto)" to R.color.subcategory_academic_load_color,
+        "Ingles (Contacto)" to R.color.subcategory_english_color
     )
 
 
