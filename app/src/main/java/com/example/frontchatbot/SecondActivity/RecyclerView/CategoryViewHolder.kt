@@ -7,13 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frontchatbot.R
 
+//ViewHolder para el RecyclerView de las categorias, aqui se le da estilos y funcionalidad (de ser necesario) a cada uno de los elementos del recyclerView
 class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val tvCategory: TextView = view.findViewById(R.id.tvCategory)
-    private val ibColor: ImageView = view.findViewById(R.id.ibColor)
+    private val tvCategory: TextView = view.findViewById(R.id.tvCategory) //Obtenemos el texto de la categoria.
+    private val ibColor: ImageView = view.findViewById(R.id.ibColor) //Obtenemos el color del TV.
 
     fun render(categoryItem: CategoryItem) {
         val context = itemView.context
-        when (categoryItem) {
+        when (categoryItem) { //Mapeamos la categoria con su respectivo color y texto.
             CategoryItem.Context -> {
                 tvCategory.setText(R.string.category_context)
                 ibColor.setColorFilter(ContextCompat.getColor(context, R.color.category_context_color))

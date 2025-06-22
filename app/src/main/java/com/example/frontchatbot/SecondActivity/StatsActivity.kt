@@ -30,9 +30,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 
-
 class StatsActivity : AppCompatActivity() {
-
     private val categories = listOf(
         CategoryItem.Campus,
         CategoryItem.Admission,

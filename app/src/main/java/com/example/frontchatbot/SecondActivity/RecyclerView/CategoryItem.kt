@@ -1,6 +1,8 @@
 package com.example.frontchatbot.SecondActivity.RecyclerView
 
+//Sealed class para modelar todos los posibles items que se pueden mostrar en el RecyclerView (temas y subtemas)
 sealed class CategoryItem() {
+    //Temas
     object Context : CategoryItem()
     object Campus : CategoryItem()
     object Admission : CategoryItem()
