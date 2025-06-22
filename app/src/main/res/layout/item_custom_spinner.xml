@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Representacion de como se verá el Spinner-->
+<!--Representacion de como se verá el Spinner, ya que es diferente del borde que se está tratando con un CardView-->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     android:layout_width="130dp"

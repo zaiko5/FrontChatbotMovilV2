@@ -7,6 +7,7 @@
     android:background="@color/principal_app"
     tools:context=".SecondActivity.StatsActivity">
 
+    <!--CardView que contiene la parte blanca de la pantalla-->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,12 +16,13 @@
         app:cardBackgroundColor="@color/subprincipal_app"
         app:cardCornerRadius="16dp">
 
-
+        <!--ScrollView para que solo la parte blanca pueda ser scrolleable-->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
 
+            <!--Linear layout para acomdar titulos-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,6 +30,7 @@
                 android:orientation="vertical"
                 android:padding="30dp">
 
+                <!--Texto de estadisticas-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -35,7 +38,7 @@
                     android:textColor="@color/title"
                     android:textSize="32sp" />
 
-
+                <!--Texto de "consultas del chatbot-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,6 +47,7 @@
                     android:textColor="@color/title"
                     android:textSize="24sp" />
 
+                <!--MCV para meter todos los graficos en un apartado diferente-->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,12 +57,14 @@
                     app:strokeColor="@color/border_third_layer"
                     app:strokeWidth="2dp">
 
+                    <!--Constraint para acomodar los graficos-->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="10dp">
 
+                        <!--TV para titulo del apartado-->
                         <TextView
                             android:id="@+id/tvFilter"
                             android:layout_width="wrap_content"
@@ -69,6 +75,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <!--MCV para meter los spinners y poder modificarlos-->
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cvYear"
                             android:layout_width="0dp"
@@ -82,12 +89,14 @@
                             app:strokeColor="@color/border_third_layer"
                             app:strokeWidth="2dp">
 
+                            <!--Spinner para el año-->
                             <Spinner
                                 android:id="@+id/spinnerYear"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </com.google.android.material.card.MaterialCardView>
 
+                        <!--MCV para el spinner de la semana-->
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cvWeek"
                             android:layout_width="0dp"
@@ -100,12 +109,14 @@
                             app:strokeColor="@color/border_third_layer"
                             app:strokeWidth="2dp">
 
+                            <!--Spinner de la semana-->
                             <Spinner
                                 android:id="@+id/spinnerWeek"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </com.google.android.material.card.MaterialCardView>
 
+                        <!--MCV para meter el spinner del mes-->
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cvMonth"
                             android:layout_width="match_parent"
@@ -118,12 +129,14 @@
                             app:strokeColor="@color/border_third_layer"
                             app:strokeWidth="2dp">
 
+                            <!--Spinner del mes-->
                             <Spinner
                                 android:id="@+id/spinnerMonth"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                         </com.google.android.material.card.MaterialCardView>
 
+                        <!--TV para el apartado de los datos-->
                         <TextView
                             android:id="@+id/tvConsults"
                             android:layout_width="wrap_content"
@@ -135,6 +148,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/cvMonth" />
 
+                        <!--PieChart para mostrar el grafico de por tema-->
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/pcData"
                             android:layout_width="200dp"
@@ -145,6 +159,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvConsults" />
 
+                        <!--RV para mostrar los nombre de los apartados de los graficos-->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvRightCategory"
                             android:layout_width="0dp"
@@ -153,6 +168,7 @@
                             app:layout_constraintStart_toEndOf="@id/rvLeftCategory"
                             app:layout_constraintTop_toBottomOf="@+id/pcData" />
 
+                        <!--Segundo RV para mostrar los nombre de los apartados de los graficos por el otro lado-->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvLeftCategory"
                             android:layout_width="0dp"
@@ -161,6 +177,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/pcData" />
 
+                        <!--TV para el subtitulo de consultas por subtema-->
                         <TextView
                             android:id="@+id/tvSubTheme"
                             android:layout_width="wrap_content"
@@ -172,6 +189,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/rvLeftCategory" />
 
+                        <!--Piechart para mostrar el grafico de subtemas-->
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/pcSubTheme"
                             android:layout_width="200dp"
@@ -182,6 +200,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvSubTheme" />
 
+                        <!--RV para mostrar los nombres de los subtemas-->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvSubthemeRight"
                             android:layout_width="0dp"
@@ -190,6 +209,7 @@
                             app:layout_constraintStart_toEndOf="@id/rvSubthemeLeft"
                             app:layout_constraintTop_toBottomOf="@+id/pcSubTheme" />
 
+                        <!--RV para mostrar el nombre de los subtemas por el otro lado-->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvSubthemeLeft"
                             android:layout_width="0dp"
@@ -197,15 +217,16 @@
                             app:layout_constraintEnd_toStartOf="@+id/rvSubthemeRight"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/pcSubTheme" />
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
 
+                <!--Constraint para el boton de logout, bien podria ser un linear ya que antes se pensaba tener 2 botones juntos.-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
 
+                    <!--MB para el boton de logout-->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/mbLogout"
                         android:layout_width="190dp"
