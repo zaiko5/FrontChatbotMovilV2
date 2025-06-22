@@ -101,7 +101,7 @@ class StatsActivity : AppCompatActivity() {
         "Proceso de inscripción" to R.color.category_inscription_color,
         "Otros procesos" to R.color.category_other_color,
         "Sin respuesta" to R.color.category_woanswer_color,
-        "Edificios" to R.color.subcategory_buildings_color,
+        "Campus" to R.color.subcategory_buildings_color,
         "Servicios (Servicios escolares, cafeterias, TOEFL, Asesorias)" to R.color.subcategory_services_color,
         "Carreras" to R.color.subcategory_careers_color,
         "Informacion general (Ficha de registro, pre-registro, configuracion de correo electronico, ejercicio practico, atencion personalizada, documentos a cargar, consulta de resultados, guia de estudios)" to R.color.subcategory_general_info_color,

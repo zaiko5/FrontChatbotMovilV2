@@ -85,7 +85,7 @@
                 app:hintTextColor="@color/color_items">
 
                 <!--EditText dentro del TIL para escribir la contraseña. -->
-                <!--El inputttpe password es para que al escribir no se vea el texto-->
+                <!--El inputtype password es para que al escribir no se vea el texto-->
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tiePassword"
                     android:layout_width="match_parent"

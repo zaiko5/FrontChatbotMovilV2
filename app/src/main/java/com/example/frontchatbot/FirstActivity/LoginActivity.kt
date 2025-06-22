@@ -34,8 +34,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        initComponents()
-        setListeners()
+        initComponents() //Se inicializan los componentes
+        setListeners() //Se inicializan los listeners
 
         //Verificar si ya hay un token y redirigir
         checkExistingToken()
@@ -67,22 +67,22 @@ class LoginActivity : AppCompatActivity() {
         // Ejecutar la llamada a la API en una coroutine
         lifecycleScope.launch(Dispatchers.IO) { // Ejecutar en el hilo de IO (Input/Output) para operaciones de red
             try {
-                val request = LoginRequest(email, password) //Instanciamos el objeto request.
-                val response = RetrofitClient.authService.login(request) //Con el objeto Retrofit, 
+                val request = LoginRequest(email, password) //Instanciamos el objeto request que es el que contiene las credenciales..
+                val response = RetrofitClient.authService.login(request) //Con el objeto Retrofit,.
 
                 withContext(Dispatchers.Main) { // Volver al hilo principal para actualizar la UI
                     if (response.isSuccessful) {
-                        val tokenResponse: TokenResponse? = response.body()
-                        tokenResponse?.let { receivedToken -> // Usamos 'receivedToken' para mayor claridad y para evitar el error anterior
+                        val tokenResponse: TokenResponse? = response.body() //Obtenemos el token de la respuesta.
+                        tokenResponse?.let { receivedToken -> // Usamos 'receivedToken' para mayor claridad.
                             // Login exitoso, guardar tokens
                             saveTokens(receivedToken.accessToken, receivedToken.refreshToken)
                             Toast.makeText(this@LoginActivity, "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show()
-                            // Redirigir a la siguiente actividad (ej. MainActivity o DashboardActivity)
+                            // Redirigir a la siguiente actividad
                             val intent = Intent(this@LoginActivity, StatsActivity::class.java)
-                            intent.putExtra("accessToken", receivedToken.accessToken)
+                            intent.putExtra("accessToken", receivedToken.accessToken) // Pasamos el token a la siguiente actividad
                             startActivity(intent)
                             finish() // Cierra LoginActivity para que el usuario no pueda volver con el botón "atrás"
-                        } ?: run {
+                        } ?: run { //Si el body de la respuesta es null.
                             Toast.makeText(this@LoginActivity, "Error: Respuesta de token vacía.", Toast.LENGTH_LONG).show()
                         }
                     } else {
@@ -90,8 +90,7 @@ class LoginActivity : AppCompatActivity() {
                         val errorBody = response.errorBody()?.string()
                         Log.e("LoginActivity", "Error de login: ${response.code()} - $errorBody")
 
-                        // Puedes mejorar este mensaje parseando el 'errorBody' si tu API devuelve un JSON estructurado de errores.
-                        val errorMessage = when (response.code()) {
+                        val errorMessage = when (response.code()) { //Mapeando los errores.
                             400 -> "Credenciales incorrectas. Verifica tu email y contraseña."
                             401 -> "Acceso no autorizado. Credenciales inválidas."
                             else -> "Error en el servidor: ${response.code()} - ${response.message()}"
@@ -109,51 +108,25 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveTokens(accessToken: String, refreshToken: String) {
-        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        with(sharedPrefs.edit()) {
-            putString(ACCESS_TOKEN_KEY, accessToken)
-            putString(REFRESH_TOKEN_KEY, refreshToken)
-            apply() // apply() es asíncrono, commit() es síncrono
+    private fun saveTokens(accessToken: String, refreshToken: String) { //Funcion que guarda los tokens.
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE) //Creando un archivo de preferencias con nombre y modo privado.
+        with(sharedPrefs.edit()) { //Abriendo el archivo de preferencias para editarlo.
+            putString(ACCESS_TOKEN_KEY, accessToken) //Guardando el token de acceso.
+            putString(REFRESH_TOKEN_KEY, refreshToken) //Guardando el token de refresco.
+            apply() // apply() es asíncrono, commit() es síncrono, guardamos los cambios al archivo de preferencias.
         }
     }
 
-    private fun checkExistingToken() {
-        val accessToken = getAccessToken()
-
-        if (accessToken != null && isTokenValid(accessToken)) {
-            // Ya hay un token, redirigir al usuario directamente
-            Toast.makeText(this, "Sesión activa, redirigiendo...", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@LoginActivity, StatsActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-        // Token inválido, limpiar y quedate en login
-        clearTokens()
-        Toast.makeText(this, "Token expirado o inválido, por favor inicia sesión.", Toast.LENGTH_SHORT).show()
-    }
-    }
-
-    // Puedes agregar esta función si necesitas obtener los tokens en otro lugar
-    fun getAccessToken(): String? {
+    fun getAccessToken(): String? { //Funcion que obtiene el token de acceso.
         val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        return sharedPrefs.getString(ACCESS_TOKEN_KEY, null)
+        return sharedPrefs.getString(ACCESS_TOKEN_KEY, null) //Obtenemos el token de acceso del archivo de preferencias.
     }
 
-    fun clearTokens() {
-        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        with(sharedPrefs.edit()) {
-            remove(ACCESS_TOKEN_KEY)
-            remove(REFRESH_TOKEN_KEY)
-            apply()
-        }
-    }
-
-    fun isTokenValid(token: String): Boolean {
+    fun isTokenValid(token: String): Boolean { //Funcion que verifica si un token es valido o no.
         try {
             // El token JWT tiene tres partes separadas por puntos: header.payload.signature
-            val parts = token.split(".")
-            if (parts.size != 3) return false
+            val parts = token.split(".") //Separamos el token en cada que haya un "."
+            if (parts.size != 3) return false //Si no hay 3 partes, no es valido.
 
             // El payload está en la segunda parte, que está base64 encoded
             val payloadJson = String(Base64.decode(parts[1], Base64.URL_SAFE))
@@ -161,15 +134,38 @@ class LoginActivity : AppCompatActivity() {
 
             // Obtenemos la fecha de expiración en segundos desde epoch
             val exp = payload.optLong("exp", 0)
-            if (exp == 0L) return false
+            if (exp == 0L) return false //Si no hay fecha de expiracion, no es valido.
 
             val currentTime = System.currentTimeMillis() / 1000  // en segundos
 
             // Retornamos true si el token NO está expirado
             return currentTime < exp
-        } catch (e: Exception) {
+        } catch (e: Exception) { //Capturamos la excepcion.
             e.printStackTrace()
             return false
+        }
+    }
+
+    private fun checkExistingToken() { //Checar si existe un token valido.
+        val accessToken = getAccessToken() //Obtener el token de acceso desde otra funcion.
+
+        if (accessToken != null && isTokenValid(accessToken)) { //Si hay un token y es valido.
+            Toast.makeText(this, "Sesión activa, redirigiendo...", Toast.LENGTH_SHORT).show() //Ya hay un token, redirigir al usuario directamente
+            val intent = Intent(this@LoginActivity, StatsActivity::class.java) //Hacemos un intent a la segunda página.
+            startActivity(intent)
+            finish()
+        } else {// Token inválido, limpiar y quedarse en login
+            clearTokens()
+            Toast.makeText(this, "Token expirado o inválido, por favor inicia sesión.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun clearTokens() { //Funcion que limpia los tokens.
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE) //Instanciamos el archivo de preferencias.
+        with(sharedPrefs.edit()) { //Abrimos el archivo de preferencias para editarlo.
+            remove(ACCESS_TOKEN_KEY) //Eliminamos el token de acceso.
+            remove(REFRESH_TOKEN_KEY) //Eliminamos el token de refresco.
+            apply() // apply() es asíncrono, commit() es síncrono, guardamos los cambios al archivo de preferencias.
         }
     }
 }

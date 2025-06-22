@@ -6,7 +6,8 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
+//Definimos la interfaz para las peticiones que haremos en esta pantalla, en este caso solo será el login.
 interface AuthService {
-    @POST("auth/login") // <<--- ¡MUY IMPORTANTE! Asegúrate de que esta sea la ruta correcta de tu endpoint de login.
-    suspend fun login(@Body request: LoginRequest): Response<TokenResponse>
+    @POST("auth/login") //Aquí debe de estar correctamente la ruta despues de la base de la api, y definimos el tipo de peticion que será POST.
+    suspend fun login(@Body request: LoginRequest): Response<TokenResponse> //En el cuerpo de la peticion, se mandará un objeto LoginRequest, definido en otra clase.
 }

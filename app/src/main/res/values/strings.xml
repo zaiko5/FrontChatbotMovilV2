@@ -65,7 +65,7 @@
     <string name="category_answers">Sin respuesta</string>
 
     <!--Subtemas-->
-    <string name="subcategory_buildings">Edificios</string>
+    <string name="subcategory_buildings">Campus</string>
     <string name="subcategory_services">Servicios (Servicios escolares, cafeterías, TOEFL, Asesorías)</string>
     <string name="subcategory_careers">Carreras</string>
     <string name="subcategory_general_info">Información general</string>
