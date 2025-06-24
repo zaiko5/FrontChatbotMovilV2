@@ -31,18 +31,17 @@ import org.json.JSONObject
 import retrofit2.HttpException
 
 class StatsActivity : AppCompatActivity() {
+    //Creando listas de categorias y subcategorias para los RV.
     private val categories = listOf(
         CategoryItem.Campus,
         CategoryItem.Admission,
         CategoryItem.Other
     )
-
     private val categories2 = listOf(
         CategoryItem.Inscription,
         CategoryItem.Context,
         CategoryItem.WOAnswer
     )
-
     private val subCategories1 = listOf(
         CategoryItem.Buildings,
         CategoryItem.Services,
@@ -53,7 +52,6 @@ class StatsActivity : AppCompatActivity() {
         CategoryItem.DocumentsDelivery,
         CategoryItem.WOAnswer
     )
-
     private val subCategories2 = listOf(
         CategoryItem.Reenrollment,
         CategoryItem.StudyGuide,
@@ -66,6 +64,7 @@ class StatsActivity : AppCompatActivity() {
         CategoryItem.Context
     )
 
+    //Creando las instancias para los objetos de la vista.
     private lateinit var adapter: CategoryAdapter
     private lateinit var rvRightCategory: RecyclerView
     private lateinit var adapter2: CategoryLeftAdapter
@@ -85,14 +84,13 @@ class StatsActivity : AppCompatActivity() {
 
     private lateinit var mbLogout: MaterialButton
 
-    // Declarar el token como una propiedad de la clase
-    private var authToken: String = ""
+    private var authToken: String = ""// Declarar el token como una propiedad de la clase
 
     // Constante para el nombre de Shared Preferences y la clave del token
     private val PREFS_NAME = "MyAuthPrefs"
     private val ACCESS_TOKEN_KEY = "access_token"
 
-    private val categoryColorsMap = mapOf(
+    private val categoryColorsMap = mapOf( //Mapeando cada una de las categorias de la respuesta de la API con su respectivo color para el pie chart.
         "Fuera de contexto" to R.color.category_context_color,
         "Información del campus" to R.color.category_campus_color,
         "Proceso de admisión" to R.color.category_admission_color,
@@ -116,49 +114,39 @@ class StatsActivity : AppCompatActivity() {
         "Ingles (Contacto)" to R.color.subcategory_english_color
     )
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
 
-        // Obtener el token de SharedPreferences, NO del Intent aquí
-        // El Intent se usó para la primera vez que se lanza StatsActivity
-        // Después de eso, el token debe persistir en SharedPreferences
-        authToken = getAccessTokenFromPrefs() ?: "" // Asignar el token persistido o vacío
+        authToken = getAccessTokenFromPrefs() ?: "" // Obtener el token de SharedPreferences, si no existe, se crea una cadena vacía.
 
-        // Si el token no está presente al iniciar la actividad (ej. si se limpió la app),
-        // o si es inválido, redirigir al login.
-        if (authToken.isBlank() || !isTokenValid(authToken)) {
+        if (authToken.isBlank() || !isTokenValid(authToken)) { //Si el token no existe o no es valido.
             Toast.makeText(this, "Sesión caducada o no iniciada. Por favor, inicia sesión.", Toast.LENGTH_LONG).show()
             clearTokensFromPrefs()
             redirectToLogin()
             return // Salir de onCreate para evitar NullPointerException
         }
 
-        initComponent()
-        setListeners()
+        initComponent() //Iniciamos los componentes de la vista.
+        setListeners() //Iniciamos los listeners
         initIU() // Esto incluye initSpinners
         setupSpinnerListeners() // Configura los listeners después de la inicialización de UI
     }
 
-    override fun onResume() {
+    override fun onResume() { //Funcion para cuando se recargue la actividad.
         super.onResume()
-        // Verificar el token cada vez que la actividad se reanuda
-        // Esto es crucial para detectar expiración mientras la app estuvo en segundo plano
         authToken = getAccessTokenFromPrefs() ?: "" // Recargar el token por si acaso se modificó en otro lado
-        if (authToken.isBlank() || !isTokenValid(authToken)) {
+        if (authToken.isBlank() || !isTokenValid(authToken)) { //Si el token no existe o no es valido.
             Toast.makeText(this, "Sesión expirada. Por favor, inicia sesión de nuevo.", Toast.LENGTH_LONG).show()
-            clearTokensFromPrefs()
-            redirectToLogin()
-        } else {
-            // Si el token es válido, forzar la recarga de datos para actualizar los gráficos
+            clearTokensFromPrefs() //Limpiamos los tokens
+            redirectToLogin() //Redirigimos al login
+        } else { // Si el token es válido, forzar la recarga de datos para actualizar los gráficos
             val monthMap = getMonthNameToNumberMap()
             fetchAndDisplayStats(monthMap)
         }
     }
 
-    private fun initComponent() {
+    private fun initComponent() { //Inicializacion de componentes de la vista
         adapter = CategoryAdapter(categories)
         rvRightCategory = findViewById(R.id.rvRightCategory)
 
@@ -182,107 +170,77 @@ class StatsActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        mbLogout.setOnClickListener {
-            logout()
+        mbLogout.setOnClickListener { //Listener para el boton de logout.
+            logout() //Cierra la sesion
         }
     }
 
     private fun initIU() {
-        initRecyclerViews()
-        initSpinners()
+        initRecyclerViews() //Iniciamos los RV
+        initSpinners() //Iniciamos los spinners.
     }
 
-    private fun initRecyclerViews() {
-        adapter = CategoryAdapter(categories)
-        rvRightCategory.layoutManager = LinearLayoutManager(this)
-        rvRightCategory.adapter = adapter
+    private fun initRecyclerViews() { //Para iniciar los RV.
+        adapter = CategoryAdapter(categories) //Instanciamos el adapter con las categorias que varian de RV a RV.
+        rvRightCategory.layoutManager = LinearLayoutManager(this) //Definimos el layout manager.
+        rvRightCategory.adapter = adapter //Definimos el adapter con las categorias que varian de RV a RV.
 
-        adapter2 = CategoryLeftAdapter(categories2)
+        adapter2 = CategoryLeftAdapter(categories2) //Para el segundo RV de las categorias.
         rvLeftCategory.layoutManager = LinearLayoutManager(this)
         rvLeftCategory.adapter = adapter2
 
-        adapterSub = CategoryAdapter(subCategories1)
+        adapterSub = CategoryAdapter(subCategories1) //Para el RV de las subcategorias.
         rvSubthemeR.layoutManager = LinearLayoutManager(this)
         rvSubthemeR.adapter = adapterSub
 
-        adapterSub2 = CategoryLeftAdapter(subCategories2)
+        adapterSub2 = CategoryLeftAdapter(subCategories2) //Para el segundo RV de las subcategorias.
         rvSubthemeL.layoutManager = LinearLayoutManager(this)
         rvSubthemeL.adapter = adapterSub2
     }
 
-    private fun initSpinners() {
-        val years = resources.getStringArray(R.array.years)
+    private fun initSpinners() { //Inicializamos los spinners
+        val years = resources.getStringArray(R.array.years) //Obtenemos los arrays para cada uno de los spinners, definidos desde strings.xml.
         val months = resources.getStringArray(R.array.months)
         val weeks = resources.getStringArray(R.array.weeks)
 
-        val yearAdapter = ArrayAdapter(
+        val yearAdapter = ArrayAdapter( //Creando un ArrayAdapter para definir el como se veran los spinners (layout creado por mi).
             this,
             R.layout.item_custom_spinner, // Layout para el ítem seleccionado
-            years
-        )
-        yearAdapter.setDropDownViewResource(R.layout.item_custom_spinner_dropdown)
-        spinnerYear.adapter = yearAdapter
-        // Seleccionar "Año" por defecto (primera posición)
-        spinnerYear.setSelection(0)
+            years) //Mando la lista de años
+        yearAdapter.setDropDownViewResource(R.layout.item_custom_spinner_dropdown) //Definiendo el como se verá el dropdown del spinner.
+        spinnerYear.adapter = yearAdapter //Asignando el adapter al spinner.
+        spinnerYear.setSelection(0) // Seleccionar "Año" por defecto (primera posición)
 
         val monthAdapter = ArrayAdapter(
             this,
-            R.layout.item_custom_spinner, // Layout para el ítem seleccionado
-            months
-        )
+            R.layout.item_custom_spinner,
+            months)
         monthAdapter.setDropDownViewResource(R.layout.item_custom_spinner_dropdown)
         spinnerMonth.adapter = monthAdapter
-        // Seleccionar "Mes" por defecto (primera posición)
         spinnerMonth.setSelection(0)
 
         val weekAdapter = ArrayAdapter(
             this,
-            R.layout.item_custom_spinner, // Layout para el ítem seleccionado
-            weeks
-        )
+            R.layout.item_custom_spinner,
+            weeks)
         weekAdapter.setDropDownViewResource(R.layout.item_custom_spinner_dropdown)
         spinnerWeek.adapter = weekAdapter
-        // Seleccionar "Semana" por defecto (primera posición)
         spinnerWeek.setSelection(0)
     }
 
-    private fun setupSpinnerListeners() {
-        val monthMap = getMonthNameToNumberMap()
-
-        spinnerYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
-                spinnerWeek.setSelection(0)
-                fetchAndDisplayStats(monthMap)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) { /* No-op */ }
+    private fun getMonthNameToNumberMap(): Map<String, Int> { //Funcion que mapea los numeros del mes con el nombre del mes.
+        val months = resources.getStringArray(R.array.months) //Obtenemos el array de meses.
+        val map = mutableMapOf<String, Int>() //Creamos un mapa mutable.
+        for (i in 1 until months.size) { //Recorremos el array de meses, comenzando desde el segundo elemento.
+            map[months[i]] = i
         }
-
-        spinnerMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
-                spinnerWeek.setSelection(0)
-                fetchAndDisplayStats(monthMap)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) { /* No-op */ }
-        }
-
-        spinnerWeek.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
-                fetchAndDisplayStats(monthMap)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) { /* No-op */ }
-        }
-
-        // Ya se llama en onResume la primera vez que se inicia o reanuda
-        // No necesitamos llamarla aquí de nuevo para la carga inicial si onResume lo hace
-        // Pero si quieres asegurar que siempre se haga una vez después de los listeners, puedes descomentar.
-        // fetchAndDisplayStats(monthMap)
+        return map
     }
 
     private fun fetchAndDisplayStats(monthMap: Map<String, Int>) {
-        // Asegurarse de que el token esté presente y sea válido ANTES de hacer la llamada a la API
-        if (authToken.isBlank() || !isTokenValid(authToken)) {
+        if (authToken.isBlank() || !isTokenValid(authToken)) { // Asegurarse de que el token esté presente y sea válido antes de hacer la llamada a la API
             Toast.makeText(this@StatsActivity, "Sesión inválida, redirigiendo al login.", Toast.LENGTH_LONG).show()
-            redirectToLogin()
+            redirectToLogin() // Redirigir al login
             return
         }
 
@@ -322,14 +280,14 @@ class StatsActivity : AppCompatActivity() {
                     spinnerWeek.alpha = 1.0f // Restaura la opacidad normal
                 }
 
-                val api = RetrofitClient.create(authToken)
-                val statsTheme = api.getEstadisticasPorTema(year, month, week)
-                val statsSubTheme = api.getEstadisticasPorSubTema(year, month, week)
-                val total = api.getTotalConsultas(year, month, week)
-                val cantidadUsuarios = api.getCantidadUsuarios(year, month, week)
+                val api = RetrofitClient.create(authToken) //Creamos la instancia de la API con el token.
+                val statsTheme = api.getEstadisticasPorTema(year, month, week) //Obtenemos las estadisticas de tema.
+                val statsSubTheme = api.getEstadisticasPorSubTema(year, month, week) //Obtenemos las estadisticas de subtema.
+                val total = api.getTotalConsultas(year, month, week) //Obtenemos el total de consultas.
+                val cantidadUsuarios = api.getCantidadUsuarios(year, month, week) //Obtenemos la cantidad de usuarios.
 
-                actualizarPieChart(statsTheme, total, cantidadUsuarios)
-                actualizarPieChartSubtemas(statsSubTheme, total, cantidadUsuarios)
+                actualizarPieChart(statsTheme, total, cantidadUsuarios) //Actualizamos el pie chart con las estadisticas de tema.
+                actualizarPieChartSubtemas(statsSubTheme, total, cantidadUsuarios) //Actualizamos el pie chart con las estadisticas de subtema.
 
             } catch (e: HttpException) {
                 // Captura errores HTTP (por ejemplo, 401 Unauthorized)
@@ -339,63 +297,87 @@ class StatsActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this@StatsActivity, "Error de servidor: ${e.message()}", Toast.LENGTH_LONG).show()
                 }
-                pieChart.clear()
-                pieChart.setNoDataText("Error al cargar datos. Intenta de nuevo.")
-                pieChart.invalidate()
+                pieChart.clear() //Limpiamos el pie chart.
+                pieChart.setNoDataText("Error al cargar datos. Intenta de nuevo.") //Definimos el texto del pie chart.
+                pieChart.invalidate() //Actualizamos el pie chart.
+                pieSubthemes.clear()
+                pieSubthemes.setNoDataText("Error al cargar datos. Intenta de nuevo.")
+                pieSubthemes.invalidate()
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(this@StatsActivity, "Error al obtener estadísticas: ${e.message}", Toast.LENGTH_LONG).show()
                 pieChart.clear()
                 pieChart.setNoDataText("Error al cargar datos. Intenta de nuevo.")
                 pieChart.invalidate()
+                pieSubthemes.clear()
+                pieSubthemes.setNoDataText("Error al cargar datos. Intenta de nuevo.")
+                pieSubthemes.invalidate()
             }
         }
     }
 
-    private fun getMonthNameToNumberMap(): Map<String, Int> {
-        val months = resources.getStringArray(R.array.months)
-        val map = mutableMapOf<String, Int>()
-        for (i in 1 until months.size) {
-            map[months[i]] = i
-        }
-        return map
-    }
+    private fun setupSpinnerListeners() { //Funcion para configurar los listeners de los spinners.
+        val monthMap = getMonthNameToNumberMap() //Obtenemos el mapeo de meses
 
-    private fun actualizarPieChart(datos: Map<String, Double>, total: Long, cantidadUsuarios: Long) {
-        val entries = mutableListOf<PieEntry>()
-        val colors = mutableListOf<Int>()
-
-        datos.forEach { (categoryName, value) ->
-            entries.add(PieEntry(value.toFloat(), categoryName.trim()))
-
-            val colorResId = categoryColorsMap[categoryName.trim()] ?: R.color.category_other_color
-            colors.add(ContextCompat.getColor(this, colorResId))
+        spinnerYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener { //Listener para el spinner de años.
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) { //Funcion que se ejecuta cuando se selecciona un año.
+                spinnerWeek.setSelection(0) //Reseteamos el spinner de semanas
+                fetchAndDisplayStats(monthMap) //Lanzamos las estadisticas del años eleccionado.
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { /* No-op */ }
         }
 
-        val dataSet = PieDataSet(entries, "Categorías")
-        dataSet.colors = colors
-        dataSet.valueTextSize = 14f
-        dataSet.valueTextColor = Color.BLACK
+        spinnerMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                spinnerWeek.setSelection(0)
+                fetchAndDisplayStats(monthMap)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { /* No-op */ }
+        }
 
-        val data = PieData(dataSet)
-        pieChart.data = data
-        pieChart.centerText = "Consultas: $total\nUsuarios: $cantidadUsuarios"
-        pieChart.setEntryLabelColor(Color.BLACK)
-        pieChart.setDrawEntryLabels(false)
-        pieChart.description.isEnabled = false
-        pieChart.legend.isEnabled = false
-        pieChart.legend.textColor = Color.BLACK
-        pieChart.animateY(1000)
-        pieChart.invalidate()
-
-        if (entries.isEmpty()) {
-            pieChart.setNoDataText("No hay datos disponibles para la selección actual.")
-            pieChart.setNoDataTextColor(Color.GRAY)
-            pieChart.invalidate()
+        spinnerWeek.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                fetchAndDisplayStats(monthMap) //Lanzamos las estadisticas del año seleccionado, al haber cambiado la semana no se resetea la misma.
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { /* No-op */ }
         }
     }
 
-    private fun actualizarPieChartSubtemas(
+    private fun actualizarPieChart(datos: Map<String, Double>, total: Long, cantidadUsuarios: Long) { //Funcion para actualizar el pie chart.
+        val entries = mutableListOf<PieEntry>() //Instanciamos una lista para los entries
+        val colors = mutableListOf<Int>() //Instanciamos una lista para los colores
+
+        datos.forEach { (categoryName, value) -> //Recorremos el mapa de datos.
+            entries.add(PieEntry(value.toFloat(), categoryName.trim())) //Agregamos el entry al mapa (que viene a ser el nombre de la categoria).
+
+            val colorResId = categoryColorsMap[categoryName.trim()] ?: R.color.category_other_color //Obtenemos el color de la categoria, si no se mapea se pone el color gris.
+            colors.add(ContextCompat.getColor(this, colorResId)) //Agregamos el color al mapa.
+        }
+
+        val dataSet = PieDataSet(entries, "Categorías") //Agregamos el dataSet con el titulo de categorias.
+        dataSet.colors = colors //Agregamos los colores al dataSet.
+        dataSet.valueTextSize = 14f //Tamaño del texto de los valores.
+        dataSet.valueTextColor = Color.BLACK //Color del texto de los valores.
+
+        val data = PieData(dataSet) //Agregamos el dataSet al pie chart.
+        pieChart.data = data //Agregamos los datos al pie chart.
+        pieChart.centerText = "Consultas: $total\nUsuarios: $cantidadUsuarios" //Agregamos el texto del centro.
+        pieChart.setEntryLabelColor(Color.BLACK) //Color de las etiquetas.
+        pieChart.setDrawEntryLabels(false) //Deshabilitamos las etiquetas.
+        pieChart.description.isEnabled = false //Deshabilitamos la descripcion.
+        pieChart.legend.isEnabled = false //Deshabilitamos la leyenda.
+        pieChart.legend.textColor = Color.BLACK //Color de la leyenda.
+        pieChart.animateY(1000) //Animacion del pie chart.
+        pieChart.invalidate() //Actualizamos el pie chart.
+
+        if (entries.isEmpty()) { //Si no hay datos, mostramos un mensaje.
+            pieChart.setNoDataText("No hay datos disponibles para la selección actual.") //Definimos el texto del pie chart.
+            pieChart.setNoDataTextColor(Color.GRAY) //Definimos el color del texto del pie chart.
+            pieChart.invalidate() //Actualizamos el pie chart.
+        }
+    }
+
+    private fun actualizarPieChartSubtemas( //Funcion para actualizar el pie chart de subtemas.
         datosSubtema: Map<String, Double>,
         total: Long,
         cantidadUsuarios: Long
@@ -433,21 +415,19 @@ class StatsActivity : AppCompatActivity() {
         }
     }
 
-    // Mueve la lógica de validación del token aquí, pero hazla privada si solo se usa en esta clase.
-    // O mejor aún, hazla una función de utilidad global o en un objeto si se usa en varias actividades.
-    private fun isTokenValid(token: String): Boolean {
+    private fun isTokenValid(token: String): Boolean { //Funcion para validar el token.
         try {
-            val parts = token.split(".")
+            val parts = token.split(".") // Dividir el token en partes
             if (parts.size != 3) {
-                Log.w("StatsActivity", "JWT no tiene 3 partes: $token")
+                Log.w("StatsActivity", "JWT no tiene 3 partes: $token") //Si no tiene 3 partes, no es valido
                 return false
             }
 
-            val payloadJson = String(Base64.decode(parts[1], Base64.URL_SAFE))
-            val payload = JSONObject(payloadJson)
+            val payloadJson = String(Base64.decode(parts[1], Base64.URL_SAFE)) // Obtener el payload en formato JSON
+            val payload = JSONObject(payloadJson) // Convertir el payload a un objeto JSON
 
-            val exp = payload.optLong("exp", 0)
-            if (exp == 0L) {
+            val exp = payload.optLong("exp", 0) // Obtener el valor de 'exp' del payload
+            if (exp == 0L) { //Si no existe o es 0, no es valido
                 Log.w("StatsActivity", "JWT no tiene campo 'exp' o es 0")
                 return false
             }
@@ -462,31 +442,28 @@ class StatsActivity : AppCompatActivity() {
         }
     }
 
-    // Modifica para obtener el token del SharedPreferences que se usa consistentemente
-    private fun getAccessTokenFromPrefs(): String? {
-        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return sharedPrefs.getString(ACCESS_TOKEN_KEY, null)
+    private fun getAccessTokenFromPrefs(): String? { //Funcion para obtener el token de Shared Preferences.
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE) //Obtenemos las preferencias de Shared Preferences.
+        return sharedPrefs.getString(ACCESS_TOKEN_KEY, null) //Obtenemos el token.
     }
 
-    private fun clearTokensFromPrefs() {
-        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        with(sharedPrefs.edit()) {
+    private fun clearTokensFromPrefs() { //Funcion para limpiar el token de Shared Preferences.
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE) //Obtenemos las preferencias de Shared Preferences.
+        with(sharedPrefs.edit()) { //Editamos las preferencias.
             remove(ACCESS_TOKEN_KEY)
-            // Si guardas refresh_token, también deberías removerlo aquí
-            remove("refresh_token") // Asumiendo que esta es la clave en LoginActivity
+            remove("refresh_token")
             apply()
         }
     }
 
-    private fun logout() {
-        clearTokensFromPrefs() // Asegúrate de limpiar los tokens
-        redirectToLogin()
-        Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+    private fun logout() { //Funcion para cerrar la sesion.
+        clearTokensFromPrefs() //Limpiamos el token.
+        redirectToLogin() //Redirigimos al login.
     }
 
-    private fun redirectToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    private fun redirectToLogin() { //Funcion que te redirige al login.
+        val intent = Intent(this, LoginActivity::class.java) //Instanciamos el intent.
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //Hacemos que no se pueda volver atrás, limpiamos las actividades anteriores y creamos una nueva.
         startActivity(intent)
         finish() // Finaliza la actividad actual para que no se pueda volver atrás
     }
